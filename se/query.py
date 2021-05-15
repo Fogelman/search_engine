@@ -108,5 +108,5 @@ def parse_json_query(json_query: str):
     return query
 
 #test section
-#if __name__ == "__main__":
-#    print(parse_raw_query(sys.argv[1]))
+if __name__ == "__main__":
+    print(parse_json_query(parse_raw_query(sys.argv[0])).evaluate())
