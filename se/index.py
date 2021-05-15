@@ -13,10 +13,10 @@ def make_index(docs):
 
 
 def save_index(index, path):
-    with open(path, 'w') as file:
+    with open(path, 'w', encoding="utf-8") as file:
         json.dump(index, file, indent=4)
 
 
 def load_index(path):
-    with open(path, 'r') as file:
+    with open(path, 'r', encoding="utf-8") as file:
         return json.load(file)
