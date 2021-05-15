@@ -4,6 +4,8 @@ import json
 
 import sys
 
+from se.transform import normalize_token
+
 
 class Node:
     def evaluate(self, index):
@@ -71,16 +73,16 @@ def build_query(query):
 
 def parse_raw_query_token(q, cr_token, final_token):
 
-    result = f'["term", "{q[cr_token+1]}"]'
+    result = f'["term", "{normalize_token(q[cr_token+1])}"]'
     cr_token += 1
     while cr_token != final_token:
         
         if q[cr_token]  == "or":
-            result_or = f'["term", "{q[cr_token-1]}"]'
+            result_or = f'["term", "{normalize_token(q[cr_token-1])}"]'
             res, cr_token = parse_raw_query_token(q, cr_token, final_token)
             result = f'["or", {result_or}, {res}]'
         elif q[cr_token]  == "and":
-            result_and =  f'["term", "{q[cr_token-1]}"]'
+            result_and =  f'["term", "{normalize_token(q[cr_token-1])}"]'
             res, cr_token = parse_raw_query_token(q, cr_token, final_token)
             result = f'["and", {result_and}, {res}]'
         else:
@@ -94,7 +96,7 @@ def parse_raw_query(raw_query: str):
     final_token = len(rq)
 
     if final_token == 1:
-        return f'["term", "{rq[0]}"]'
+        return f'["term", "{normalize_token(rq[0])}"]'
     else:
         return parse_raw_query_token(rq, 0, final_token)
 
@@ -108,5 +110,5 @@ def parse_json_query(json_query: str):
     return query
 
 #test section
-#if __name__ == "__main__":
-#    print(parse_raw_query(sys.argv[1]))
+if __name__ == "__main__":
+    print(parse_json_query(parse_raw_query(sys.argv[0])).evaluate())
