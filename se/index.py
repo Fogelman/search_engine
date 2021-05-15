@@ -5,7 +5,7 @@ from collections import defaultdict
 
 def make_index(docs):
     index = defaultdict(list)
-    for k, doc in enumerate(docs):
+    for k, doc in docs.items():
         words = set(doc)
         for word in words:
             index[word].append(k)
