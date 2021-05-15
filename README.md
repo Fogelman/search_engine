@@ -19,5 +19,5 @@ python scripts/make_archive.py --input=data/news.csv --output=data/archieve.json
 ## Create index
 
 ```
-python scripts/make_index_from_archieve.py --input=data/archieve.json --output=data/index.json
+python scripts/make_index_from_archive.py --input=data/archieve.json --output=data/index.json
 ```

@@ -19,15 +19,22 @@ Tweets obtidos de https://www.kaggle.com/kingburrito666/better-donald-trump-twee
 
 def parse_html(html):
     soup = BeautifulSoup(html, 'html.parser')
-    cleaned = "\n".join([tag.text for tag in soup.select("p")[1:]])
+
+    tags = [tag.text for tag in soup.select("p")]
+
+    if len(tags) > 1:
+        tags = tags[1:]
+
+    cleaned = "\n".join(tags)
 
     return cleaned
 
 
 def tokenize_corpus(path, limit):
+    
     df = pd.read_csv(path)
     documents = {}
-    for row in df.itertuples(index=False):
+    for row in tqdm(df.itertuples(index=False)):
         try:
             html = row.html
             _id = row.id
