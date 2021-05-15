@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 
+import sys
+
 
 class Node:
     def evaluate(self, index):
@@ -67,8 +69,36 @@ def build_query(query):
             raise KeyError(f"Operação {node_type} desconhecida.")
 
 
+def parse_raw_query_token(q, cr_token, final_token):
+
+    result = f'["term", "{q[cr_token+1]}"]'
+    cr_token += 1
+    while cr_token != final_token:
+        
+        if q[cr_token]  == "or":
+            result_or = f'["term", "{q[cr_token-1]}"]'
+            res, cr_token = parse_raw_query_token(q, cr_token, final_token)
+            result = f'["or", {result_or}, {res}]'
+        elif q[cr_token]  == "and":
+            result_and =  f'["term", "{q[cr_token-1]}"]'
+            res, cr_token = parse_raw_query_token(q, cr_token, final_token)
+            result = f'["and", {result_and}, {res}]'
+        else:
+            cr_token +=1
+    
+    return result,cr_token
+
+
 def parse_raw_query(raw_query: str):
-    return raw_query.split()
+    rq = raw_query.split()
+    final_token = len(rq)
+
+    if final_token == 1:
+        return f'["term", "{rq[0]}"]'
+    else:
+        return parse_raw_query_token(rq, 0, final_token)
+
+    return  rq
 
 
 def parse_json_query(json_query: str):
@@ -76,3 +106,7 @@ def parse_json_query(json_query: str):
     print(q)
     query = build_query(q)
     return query
+
+#test section
+#if __name__ == "__main__":
+#    print(parse_raw_query(sys.argv[1]))
