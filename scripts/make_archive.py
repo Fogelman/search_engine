@@ -10,7 +10,7 @@ from nltk.tokenize import word_tokenize
 
 
 from se.archive import save_archive
-from se.transform import normalize_token
+from se.transform import filter_tokens
 
 MSG_DESCRIPTION = '''Le arquivo de tweets e gera JSON com tweets tokenizados.
 Tweets obtidos de https://www.kaggle.com/kingburrito666/better-donald-trump-tweets
@@ -41,7 +41,7 @@ def tokenize_corpus(path, limit):
 
             document = parse_html(html)
             tokens = word_tokenize(document, language="portuguese")
-            documents[_id] = list(map(normalize_token, tokens))
+            documents[_id] = filter_tokens(tokens)
         except:
             continue
 
@@ -54,7 +54,7 @@ def tokenize_corpus(path, limit):
 def main():
     parser = ArgumentParser(description=MSG_DESCRIPTION)
     parser.add_argument('--input', help='News Dataset')
-    parser.add_argument('--output', help='Where the archieve is stored')
+    parser.add_argument('--output', default="data/archive.json")
     parser.add_argument('--limit', type=int, default=None)
 
     args = parser.parse_args()

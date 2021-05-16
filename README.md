@@ -13,11 +13,17 @@ https://www.kaggle.com/fogelman/brazilian-news
 ## Create archieve
 
 ```
-python scripts/make_archive.py --input=data/news.csv --output=data/archieve.json --limit=10000
+python scripts/make_archive.py --input=data/news.csv --limit=1000
 ```
 
 ## Create index
 
 ```
-python scripts/make_index_from_archive.py --input=data/archieve.json --output=data/index.json
+python scripts/make_index_from_archive.py
+```
+
+## Search Documents
+
+```
+python scripts/search.py "governo or estado"
 ```

@@ -10,8 +10,8 @@ MSG_DESCRIPTION = 'Le docs e gera indice reverso.'
 
 def main():
     parser = ArgumentParser(description=MSG_DESCRIPTION)
-    parser.add_argument('--input', help='News Dataset')
-    parser.add_argument('--output', help='Where the archieve is stored')
+    parser.add_argument('--input', default="data/archive.json", help='News Dataset')
+    parser.add_argument('--output', default="data/index.json", help='Where the archieve is stored')
     args = parser.parse_args()
 
     docs = load_archive(args.input)

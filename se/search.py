@@ -15,4 +15,4 @@ def search(raw_query, index, docs):
 
     ranked_index = rank_documents(terms, docs, index_query)
 
-    return [docs[k] for k in ranked_index]
+    return ranked_index
