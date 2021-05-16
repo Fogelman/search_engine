@@ -7,13 +7,12 @@ def extract_terms(raw_query):
 
 def search(raw_query, index, docs):
     query = parse_raw_query(raw_query)
-    print(query[0])
     json_query = parse_json_query(query[0])
 
     index_query = json_query.evaluate(index)
 
     terms = terms = extract_terms(raw_query)
 
-    ranked_index = rank_documents(terms, docs, index)
+    ranked_index = rank_documents(terms, docs, index_query)
 
     return [docs[k] for k in ranked_index]

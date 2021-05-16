@@ -96,7 +96,7 @@ def parse_raw_query(raw_query: str):
     final_token = len(rq)
 
     if final_token == 1:
-        return f'["term", "{normalize_token(rq[0])}"]'
+        return [f'["term", "{normalize_token(rq[0])}"]']
     else:
         return parse_raw_query_token(rq, 0, final_token)
 
